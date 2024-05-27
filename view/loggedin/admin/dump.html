@@ -1,0 +1,114 @@
+<?php require_once APP_ROOT . '/view/partials/admin-header.php'?>
+
+</head>
+<body>
+<?php require_once APP_ROOT . '/view/partials/admin_sidebar.php'?>
+<div class="container-fluid">
+    <div class="input-group">
+        <label for="examBody" class="input-label">Exam Body</label>
+        <input type="text" id="examBody" name="examBody" class="input-field text-uppercase" required>
+        <button type="button" class="add-button" onclick="addOption('examBodySelect', 'examBody')">Add</button>
+    </div>
+    
+    <div class="input-group">
+        <label for="subject" class="input-label">Subject</label>
+        <input type="text" id="subject" name="subject" class="input-field  text-uppercase" required>
+        <button type="button" class="add-button" onclick="addOption('subjectSelect', 'subject')">Add</button>
+    </div>
+    
+    <div class="input-group">
+        <label for="examYear" class="input-label">Exam Year</label>
+        <input type="text" id="examYear" name="examYear" class="input-field  text-uppercase" required>
+        <button type="button" class="add-button" onclick="addOption('examYearSelect', 'examYear')">Add</button>
+    </div>
+             
+
+
+            <section class="content">
+     <div class="text-center fw-bolder text-uppercase m-4">Display OutPut</div>
+
+  <form id="admin-form" class="" method="POST">
+  <?php if (isset($_GET['error'])): ?>
+        <div class="alert alert-<?=$_GET['type']?>" role="alert"><?=$_GET['error']?></div>
+    <?php endif; ?>
+    <div class="exam-body input-group">
+        <div>Exam Body</div>
+        <select id="examBodySelect" name="examBody" class=" mx-3 text-capitalize form-select text-black-50">
+        <option class="" selected>Select Exam Body</option>
+        <?php foreach($exambody as $exam): ?>
+                         <option value="<?=$exam?>"><?=strtoupper($exam)?></option>
+                      <?php endforeach; ?>
+
+            <!-- Options will be added dynamically from JavaScript -->
+        </select>
+    </div>
+    <div class="subject input-group">
+          <div>Subject</div>
+          <select id="subjectSelect" name="subject" class="mx-5 text-capitalize text-black-50 form-select">
+    <?php foreach ($subjectOptions as $option): ?>
+        <option value="<?= $option ?>" <?= ($_SESSION['selectedOptions']['subject'] === $option) ? 'selected' : '' ?>>
+            <?= strtoupper($option) ?>
+        </option>
+    <?php endforeach; ?>
+</select>
+    </div>
+    <div class="exam-year input-group">
+         <div>Exam Year</div>
+         <select id="examYearSelect" name="examYear" class="mx-3 text-capitalize text-black-50 form-select">
+    <?php foreach ($examYearOptions as $option): ?>
+        <option value="<?= $option ?>" <?= ($_SESSION['selectedOptions']['examYear'] === $option) ? 'selected' : '' ?>>
+            <?= strtoupper($option) ?>
+        </option>
+    <?php endforeach; ?>
+</select>
+    </div>
+    <div class="Question mb-3">
+    <label for="Textarea" class="form-label">Set Question</label>
+    <textarea class="form-control " name="question" id="Textarea" placeholder="Enter Questions Here"></textarea>
+    <div class="invalid-feedback">
+      Please enter a message in the textarea.
+    </div>
+  </div>    </div>
+    <div class="options">
+    <div>
+    <div class="input-group">
+        <label for="optionA" class="input-label"> Option A</label>
+        <input type="text" name="optionA" id="optionA" value="" class="input-field" >
+        <button type="button" class="add-button " onclick="addOptionToSelect('correct', 'optionA')">Add</button>
+    </div>
+    <div  class="input-group">
+        <label for="optionB" class="input-label"> Option B</label>
+        <input type="text" name="optionB" id="optionB" value=""class="input-field">
+        <button type="button" class="add-button" onclick="addOptionToSelect('correct', 'optionB')">Add</button>
+    </div>
+    <div  class="input-group">
+        <label for="optionC"class="input-label"> Option C</label>
+        <input type="text" name="optionC" id="optionC" value=""class="input-field">
+        <button type="button" class="add-button" onclick="addOptionToSelect('correct', 'optionC')">Add</button>
+    </div>
+    <div class="input-group">
+        <label for="optionD"class="input-label"> Option D</label>
+        <input type="text" name="optionD" id="optionD" value=""class="input-field">
+        <button type="button" class="add-button" onclick="addOptionToSelect('correct', 'optionD')">Add</button>
+    </div>
+    <div class="input-group">
+        <label for="optionE"class="input-label"> Option E</label>
+        <input type="text" name="optionE" id="optionE" value=""class="input-field">
+        <button type="button" class="add-button" onclick="addOptionToSelect('correct', 'optionE')">Add</button>
+    </div>
+</div>
+
+<div class="correct input-group">
+    <div>Select the Correct Answer</div>
+    <select id="correct" class="mx-3 text-capitalize form-select text-black-50" name="correctAnswer">
+        <!-- Options will be added dynamically from JavaScript -->
+    </select>
+</div>
+<input type="hidden" name="create-question">
+</form>
+
+</section>
+
+
+</div>
+                    <?php require_once APP_ROOT . '/view/partials/admin-footer.php'?>
