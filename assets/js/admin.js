@@ -1,10 +1,61 @@
-function confirmPublish(questionId, currentStatus, buttonElement) {
+// function confirmPublish(questionId, url, currentStatus, buttonElement) {
+//     console.log(questionId, url, currentStatus);
+//     const newStatus = currentStatus === 1 ? 0 : 1;
+//     const actionText = newStatus === 1 ? 'publish' : 'unpublish';
+//     console.log(newStatus, actionText);
+//     Swal.fire({
+//         title: `${actionText} Confirmation `,
+//         text: `Do you want to ${actionText} this question?`,
+//         icon: 'question',
+//         showCancelButton: true,
+//         confirmButtonColor: '#3085d6',
+//         cancelButtonColor: '#d33',
+//         confirmButtonText: `Yes, ${actionText} it!`
+//     }).then((result) => {
+//         if (result.isConfirmed) {
+//             publish = 'publish';
+//             // publish = actionText;
+//             $.ajax({
+//                 // url: 'view-past-questions',
+//                 url: url,
+//                 method: 'POST',
+//                 data: { questionId, newStatus, publish },
+//                 dataType: 'json',
+//                 success: async function (response) {
+//                     console.log("success message: ", response)
+//                     if (response.status === 'success') {
+//                         if (response.status === 'success') {
+//                             // Toggle the button's appearance and text
+//                             buttonElement.classList.toggle('bg-success', newStatus === 1);
+//                             buttonElement.classList.toggle('bg-secondary', newStatus === 0);
+//                             buttonElement.textContent = newStatus === 1 ? 'Published' : 'Unpublished';
+//                         }
+//                         Swal.fire('Updated!', `The question has been ${actionText}ed.`, 'success');
+//                         // You can update the button text or UI as needed here
+//                     } else {
+//                         Swal.fire('Error', `Failed to ${actionText} the question.`, 'error');
+//                     }
 
+//                 },
+//                 error: function () {
+//                     Swal.fire('Error', `Failed to ${actionText} the question.`, 'error');
+//                 }
+//             });
+//         }
+//     });
+//     return false; // Prevent the default link behavior
+// }
+
+// 
+
+function confirmPublish(questionId, url, buttonElement) {
+    const currentStatus = parseInt(buttonElement.getAttribute('data-status'), 10);
+    // console.log(questionId, url, currentStatus);
     const newStatus = currentStatus === 1 ? 0 : 1;
     const actionText = newStatus === 1 ? 'publish' : 'unpublish';
-    console.log(newStatus, actionText);
+
     Swal.fire({
-        title: `${actionText} Confirmation `,
+        title: `${actionText} Confirmation`,
         text: `Do you want to ${actionText} this question?`,
         icon: 'question',
         showCancelButton: true,
@@ -13,26 +64,24 @@ function confirmPublish(questionId, currentStatus, buttonElement) {
         confirmButtonText: `Yes, ${actionText} it!`
     }).then((result) => {
         if (result.isConfirmed) {
-            publish = 'publish';
             $.ajax({
-                url: 'view-past-questions',
+                url: url,
                 method: 'POST',
-                data: { questionId, newStatus, publish },
+                data: { questionId, newStatus, publish: 'publish' },
                 dataType: 'json',
                 success: function (response) {
                     if (response.status === 'success') {
-                        if (response.status === 'success') {
-                            // Toggle the button's appearance and text
-                            buttonElement.classList.toggle('bg-success', newStatus === 1);
-                            buttonElement.classList.toggle('bg-secondary', newStatus === 0);
-                            buttonElement.textContent = newStatus === 1 ? 'Published' : 'Unpublished';
-                        }
+                        // Toggle the button's appearance and text
+                        buttonElement.classList.toggle('bg-success', newStatus === 1);
+                        buttonElement.classList.toggle('bg-secondary', newStatus === 0);
+                        buttonElement.textContent = newStatus === 1 ? 'Published' : 'Unpublished';
+                        // Update the data-status attribute
+                        buttonElement.setAttribute('data-status', newStatus);
+
                         Swal.fire('Updated!', `The question has been ${actionText}ed.`, 'success');
-                        // You can update the button text or UI as needed here
                     } else {
                         Swal.fire('Error', `Failed to ${actionText} the question.`, 'error');
                     }
-
                 },
                 error: function () {
                     Swal.fire('Error', `Failed to ${actionText} the question.`, 'error');
@@ -40,10 +89,9 @@ function confirmPublish(questionId, currentStatus, buttonElement) {
             });
         }
     });
+
     return false; // Prevent the default link behavior
 }
-
-// 
 
 
 

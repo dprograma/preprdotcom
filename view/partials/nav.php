@@ -7,6 +7,17 @@ if (isset($_COOKIE['cart'])) {
         $cart_count = $cart_count + $cart['quantity'];
     }
 }
+$currentUser = toJson($pdo->select("SELECT * FROM users WHERE id=?", [Session::get('loggedin')])->fetch(PDO::FETCH_ASSOC));
+
+$dashboard = 'dashboard';
+if (!empty($currentUser)) {
+    if ($currentUser->access == 'admin') {
+    $dashboard = 'admin-dashboard';
+}elseif ($currentUser->access == 'secured' && $currentUser->is_agent){
+    $dashboard = 'agent-dashboard';
+}
+}
+
 ?>
 <nav class="navbar navbar-expand-lg navbar-dark bg-nav px-0 py-3">
     <div class="container-xl max-w-screen-xl">
@@ -42,7 +53,13 @@ if (isset($_COOKIE['cart'])) {
                         <button class="nav-link bg-danger px-2 py-2">Become an Agent</button>
                     </form>         
                 </li>
+
             </ul>
+            
+
+
+
+            
             <!-- Right navigation -->
             <div class="navbar-nav ms-lg-4">
                 <a class="nav-item nav-link" href="cart"><img src="<?= CART ?>" class="h-8" /></a>
@@ -50,6 +67,7 @@ if (isset($_COOKIE['cart'])) {
                 <span class="text-center" style="color:brown; font-size: 14px; line-height: 18px; background-color: yellow; width: 18px; height: 18px; border-radius: 4px; transform: translate(-10px, 10px);"><?=$cart_count?></span>
                 <?php endif; ?>
             </div>
+            <?php if (empty($currentUser)): ?>
             <div class="navbar-nav ms-lg-4">
                 <a class="nav-item nav-link" href="auth-login">Sign in</a>
             </div>
@@ -59,6 +77,18 @@ if (isset($_COOKIE['cart'])) {
                     Register
                 </a>
             </div>
+            <?php else: ?>
+                <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Hi <?=$currentUser->fullname?>
+          </a>
+          <ul class="dropdown-menu" style="360px;">
+            <li><a class="dropdown-item" href="<?=$dashboard?>">Dashboard</a></li>
+            <li class="dropdown-separator"></li>
+            <li><a class="dropdown-item" href="logout">Logout</a></li>
+          </ul>
+        </li>
+        <?php endif; ?>
         </div>
     </div>
 </nav>

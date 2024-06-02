@@ -1,7 +1,7 @@
 <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
         <div class="app-header header-shadow">
             <div class="app-header__logo">
-               <img src=" <?=FAVICON?>" alt="">
+               <a href="home"><img src=" <?=FAVICON?>" alt=""></a>
                 <div class="header__pane ml-auto">
                     <div>
                         <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
@@ -207,6 +207,12 @@
                                     <a href="upload-past-question" class="">
                                     <i class="fa-solid fa-upload"></i>
                                       Upload Past Question
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="view-agent-past-questions" class="">
+                                    <i class="fa-brands fa-hive"></i>
+                                      <?php $str = "View Agent Past Questions"; echo strlen($str) > 25 ? substr($str, 0, 25) . "...": $str; ?>
                                     </a>
                                 </li>
                                 <li>

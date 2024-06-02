@@ -39,11 +39,12 @@ $routes = [
     'agent' => 'core/controller/Agent.php',
     'auth-agent-login' => 'core/controller/AgentLogin.php',
     'agent-dashboard' => 'core/controller/AgentDashboard.php',
+    'view-agent-past-questions' => 'core/controller/View-Agent-Past-Questions.php',
     'logout' => 'core/controller/Logout.php',
 ];
 
 
-$admin_pages = ['admin-dashboard', 'dashboard', 'purchases', '/', 'create-past-question', 'create-post', 'viewpost', 'view-past-questions', 'post-table', 'admin-settings', 'edit-post', 'payment-gateway', 'cart', 'checkout-past-q', 'edit-question', 'upload-past-question', 'logout', 'agent-dashboard', 'home', '/', 'blogdetails', 'contact', 'about', 'news'];
+$admin_pages = ['admin-dashboard', 'dashboard', 'purchases', '/', 'create-past-question', 'create-post', 'viewpost', 'view-past-questions', 'post-table', 'admin-settings', 'edit-post', 'payment-gateway', 'cart', 'checkout-past-q', 'edit-question', 'upload-past-question', 'view-agent-past-questions', 'logout', 'agent-dashboard', 'home', '/', 'blogdetails', 'contact', 'about', 'news'];
 
 $agent_pages = ['agent-dashboard', '/', 'view-past-questions', 'viewpost', 'upload-past-question', 'logout', 'home', 'contact', 'about', 'news'];
 

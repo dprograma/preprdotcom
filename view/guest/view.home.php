@@ -21,8 +21,11 @@ require_once APP_ROOT . '/view/partials/header.php'
                             past Question Hub
                         </h1>
                         <p class="lead text-white text-opacity-80 px-9 mb-10 text-center">
-                            Gain access to the key insights from thousands of past questions. We publish a yearly past
-                            questions. You can can subscribe to have access to them all.
+                            Practice past questions and answers and gain confidence by familiarizing yourself with
+                            exam conditions.
+                            Evaluate your strengths and weaknesses by enabling targeted study efforts.
+                            Enhance retention and understanding of course material through active recall. Get in to
+                            Computer Based Test now.
                             </h1>
                         <div class="mx-sm-n2">
                             <a href="auth-register"
@@ -132,11 +135,11 @@ require_once APP_ROOT . '/view/partials/header.php'
                     $offset = ($page - 1) * $limit; // Offset for the query
                     
                     try {
-                        $query = "SELECT * FROM document LIMIT $limit OFFSET $offset";
-                        $search = "SELECT count(*) as total FROM document LIMIT $limit";
+                        $query = "SELECT * FROM document WHERE `published`= 1 LIMIT $limit OFFSET $offset";
+                        $search = "SELECT count(*) as total FROM document WHERE `published`= 1 LIMIT $limit";
                         if (!empty($subject_name || $exam_body || $subject_year)) {
-                            $query = "SELECT * FROM document WHERE `subject` LIKE '%$subject_name%' AND `exam_body` LIKE '%$exam_body%' AND `year` LIKE '%$subject_year%'  LIMIT $limit";
-                            $search = "SELECT count(*) as total from document WHERE `subject` LIKE '%$subject_name%' AND `exam_body` LIKE '%$exam_body%' AND `year` LIKE '%$subject_year%' LIMIT $limit";
+                            $query = "SELECT * FROM document WHERE `subject` LIKE '%$subject_name%' AND `exam_body` LIKE '%$exam_body%' AND `year` LIKE '%$subject_year%' AND `published` = 1  LIMIT $limit";
+                            $search = "SELECT count(*) as total from document WHERE `subject` LIKE '%$subject_name%' AND `exam_body` LIKE '%$exam_body%' AND `year` LIKE '%$subject_year%' AND `published` = 1 LIMIT $limit";
                         }
 
 
@@ -209,8 +212,7 @@ require_once APP_ROOT . '/view/partials/header.php'
                             if ($page < $total_pages) {
                                 echo '<li class="page-item"><a class="page-link" href="?page=' . ($page + 1) . '">Next</a></li>';
                             }
-                        }
-                        else {
+                        } else {
                             // Previous page link
                             if ($page > 1) {
                                 echo '<li class="page-item active"><a class="page-link" href="?page=' . ($page - 1) . '">Previous</a></li>';

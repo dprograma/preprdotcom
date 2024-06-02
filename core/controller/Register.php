@@ -54,9 +54,9 @@ if (isset($_POST['register'])) {
     if (Session::exists('new-agent')) {
         $pdo->insert('INSERT INTO users(username,email, fullname, `password`, verification, profileimg, is_agent) VALUES(?,?,?,?,?,?,?)', [$userData['UserName'], $userData['Email'], $userData['FullName'], $hashedPass, $verification, $userData['ProfileImg'], true]);
 
-        $date = date('d-m-Y H:i:s');
+        // $date = date('d-m-Y H:i:s');
 
-        $pdo->insert('INSERT INTO `agents`(`agent_id`, `user_id`, `wallet_balance`, `created_at`, `updated_at`) VALUES (?,?,?,?)', [$currentUser->id, $currentUser->id, '', $date, $date]);
+        // $pdo->insert('INSERT INTO `agents`(`agent_id`, `user_id`, `wallet_balance`, `created_at`, `updated_at`) VALUES (?,?,?,?)', [$currentUser->id, $currentUser->id, '', $date, $date]);
         
     } else {
         $pdo->insert('INSERT INTO users(username,email, fullname, `password`, verification, profileimg) VALUES(?,?,?,?,?,?)', [$userData['UserName'], $userData['Email'], $userData['FullName'], $hashedPass, $verification, $userData['ProfileImg']]);

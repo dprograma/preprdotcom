@@ -81,6 +81,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             }
 
             if ($pdo->status) {
+                setcookie('cart', '', time() - 3600, '/');
+                unset($_COOKIE['cart']);
                 redirect('purchases');
             }
 

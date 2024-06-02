@@ -10,9 +10,9 @@ if (isset($_POST['logout'])) {
 
 if (!empty(Session::get('loggedin'))) {
 
-    $currentUser = $pdo->select("SELECT * FROM users WHERE id=?", [Session::get('loggedin')])->fetch(PDO::FETCH_ASSOC);
-    if ($currentUser['is_agent']) {
-        $questions = $pdo->select("SELECT * FROM document WHERE id=?", [Session::get('loggedin')])->fetch(PDO::FETCH_ASSOC);
+    $currentUser = toJson($pdo->select("SELECT * FROM users WHERE id=?", [Session::get('loggedin')])->fetch(PDO::FETCH_ASSOC));
+    if ($currentUser->is_agent) {
+        $questions = $pdo->select("SELECT * FROM document WHERE id=? AND published = ?", [Session::get('loggedin'), true])->fetch(PDO::FETCH_ASSOC);
     }else{
         $questions = $pdo->select("SELECT * FROM past_question", [])->fetchAll(PDO::FETCH_OBJ);
     }

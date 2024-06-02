@@ -3,7 +3,7 @@
 </head>
 
 <body>
-  <?php require_once APP_ROOT . '/view/partials/agent_sidebar.php' ?>
+  <?php $currentUser->is_agent ? require_once APP_ROOT . '/view/partials/agent_sidebar.php': require_once APP_ROOT . '/view/partials/admin_sidebar.php' ?>
 
   <div class="container">
     <?php if (isset($_GET['error'])): ?>
@@ -21,7 +21,7 @@
             <th scope="col" colspan="3" class="text-center">Action</th>
           </tr>
         </thead>
-        <?php $q = 1; ?>
+        <?php $q = 0; ?>
 
         <!-- post body for past questions                -->
         <tbody class="post-body bg-white">
@@ -49,7 +49,7 @@
                   <td class="text-center">
                     <button type="button"
                       class="btn btn-sm btn-rounded btn-pill text-uppercase ml-4 text-white <?= $question->publish == 1 ? 'bg-success' : 'bg-secondary text-white' ?>"
-                      title="Publish" onclick="confirmPublish(<?= $question->id ?>, <?= $question->publish ?>, this)">
+                      title="Publish" data-status="<?= $question->publish ?>" onclick="confirmPublish(<?= $question->id ?>, '<?=$url ?>', this)">
                       <?= $question->publish == 1 ? 'Published' : 'Unpublished' ?>
                     </button>
                   </td>
@@ -65,9 +65,9 @@
             <?php endif; ?>
 
           <?php else: ?>
-            <?php foreach ($questions as $ques => $question): ?>
+            <?php foreach ($questions as $question): ?>
               <tr data-id="<?= $question->id ?>" class="bg-white">
-                <th scope="row"><?= $ques + 1 ?></th>
+                <th scope="row"><?= $q + 1 ?></th>
                 <td class="text-uppercase"><?= $question->exam_body ?></td>
                 <td class="text-capitalize"><?= $question->subject ?></td>
                 <td class="text-capitalize"><?= $question->exam_year ?></td>
@@ -75,7 +75,7 @@
 
                 <td class="view-modal-trigger">
                   <button type="button" class="button btn btn-info btn-view"
-                    data-modal-id="viewModal<?= $ques ?>">View</button>
+                    data-modal-id="viewModal<?= $q ?>">View</button>
                 </td>
 
                 <!-- Update your "EDIT" links with data attributes -->
@@ -86,7 +86,7 @@
                 <td class="text-center">
                   <button type="button"
                     class="btn btn-sm btn-rounded btn-pill text-uppercase ml-4 text-white <?= $question->publish == 1 ? 'bg-success' : 'bg-secondary text-white' ?>"
-                    title="Publish" onclick="confirmPublish(<?= $question->id ?>, <?= $question->publish ?>, this)">
+                    title="Publish" data-status="<?= $question->publish ?>" onclick="confirmPublish(<?= $question->id ?>, '<?= $url ?>', this)">
                     <?= $question->publish == 1 ? 'Published' : 'Unpublished' ?>
                   </button>
                 </td>
