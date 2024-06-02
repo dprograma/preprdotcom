@@ -99,6 +99,11 @@ function formatNumber($number, $decimalPlaces = 2) {
     return number_format($number, $decimalPlaces, '.', ',');
 }
 
+function computeAgentCommission($amount): float {
+    $amount = (int)($amount);
+    return 0.70 * $amount;
+}
+
 function generateRandomString($length = 10) { 
     $bytes = random_bytes(ceil($length / 2)); 
     $randomString = strtoupper(substr(bin2hex($bytes), 0, $length)); 

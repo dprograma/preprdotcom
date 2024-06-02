@@ -10,7 +10,7 @@
       <div class="text-center alert alert-<?= $_GET['type'] ?>" role="alert"><?= $_GET['error'] ?></div>
     <?php endif; ?>
     <div>
-      <table class="table table-striped">
+      <table class="table table-striped" style="font-size: 12px;">
         <thead>
           <tr>
             <th scope="col">id</th>
@@ -18,7 +18,7 @@
             <th scope="col">Subject</th>
             <th scope="col">Exam Year</th>
             <th scope="col">Date</th>
-            <th scope="col" colspan="3" class="text-center">Action</th>
+            <th scope="col" colspan="4" class="text-center">Action</th>
           </tr>
         </thead>
         <?php $q = 0; ?>
@@ -30,7 +30,7 @@
             <?php else: ?>
               <?php foreach ($questions as $ques => $question): ?>
                 <tr data-id="<?= $question->id ?>" class="bg-white">
-                  <th scope="row"><?= $ques + 1 ?></th>
+                  <th scope="row"><?= ++$q ?></th>
                   <td class="text-uppercase"><?= $question->exam_body ?></td>
                   <td class="text-capitalize"><?= $question->subject ?></td>
                   <td class="text-capitalize"><?= $question->year ?></td>
@@ -67,7 +67,7 @@
           <?php else: ?>
             <?php foreach ($questions as $question): ?>
               <tr data-id="<?= $question->id ?>" class="bg-white">
-                <th scope="row"><?= $q + 1 ?></th>
+                <th scope="row"><?= ++$q ?></th>
                 <td class="text-uppercase"><?= $question->exam_body ?></td>
                 <td class="text-capitalize"><?= $question->subject ?></td>
                 <td class="text-capitalize"><?= $question->exam_year ?></td>

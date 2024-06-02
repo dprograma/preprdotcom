@@ -39,7 +39,7 @@
                             <div class="widget-subheading">Total Past Question Uploaded</div>
                         </div>
                         <div class="widget-content-right">
-                            <div class="fs-6 text-info"><?= $totalQuestionsUploaded ?></div>
+                            <div class="fs-6 text-info"><?= $pastQuestionsUploaded->total ?></div>
                         </div>
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                             <div class="widget-subheading">Total Past Question approved</div>
                         </div>
                         <div class="widget-content-right">
-                            <div class="fs-6 text-info"><?= $totalQuestionsUploaded ?></div>
+                            <div class="fs-6 text-info"><?= $pastQuestionsApproved->approved ?></div>
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                             <div class="widget-subheading">Total Past Question Pending</div>
                         </div>
                         <div class="widget-content-right">
-                            <div class="fs-6 text-info"><?= $totalQuestionsUploaded ?></div>
+                            <div class="fs-6 text-info"><?= $pastQuestionsPending->pending ?></div>
                         </div>
                     </div>
                 </div>

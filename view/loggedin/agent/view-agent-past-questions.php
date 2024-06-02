@@ -30,7 +30,7 @@
         <tbody class="post-body bg-white">
             <?php foreach ($questions as $question): ?>
               <tr data-id="<?= $question->id ?>" class="bg-white">
-                <th scope="row"><?= $q + 1 ?></th>
+                <th scope="row"><?= ++$q ?></th>
                 <td class="text-uppercase"><?= $question->fullname ?></td>
                 <td class="text-uppercase"><?= $question->sku ?></td>
                 <td class="text-uppercase"><?= $question->exam_body ?></td>
