@@ -74,19 +74,19 @@ require_once APP_ROOT . '/view/partials/header.php'
         </div>
     </div>
 
-    <div class="container mb-3">
+    <div class="container mb-3" id="search-form">
         <form method="get">
             <div class="row g-3 pe-1 ps-1">
-                <div class="col">
+                <div class="col-12 col-md-3">
                     <input type="text" name="subject" class="form-control rounded-0 p-md-2" placeholder="Subject"
                         aria-label="Subject">
                 </div>
-                <div class="col">
+                <div class="col-12 col-md-3">
                     <input type="text" name="exam_body" class="form-control rounded-0 p-md-2" placeholder="Exam Body"
                         aria-label="Exam Body">
                 </div>
 
-                <div class="col">
+                <div class="col-12 col-md-3">
                     <select name="year" class="form-control rounded-0 p-md-2">
                         <option class="rounded-0" value="">Year</option>
                         <?php for ($i = date('Y'); $i >= 1970; $i--) { ?>
@@ -95,7 +95,7 @@ require_once APP_ROOT . '/view/partials/header.php'
                     </select>
                 </div>
 
-                <div class="col">
+                <div class="col-12 col-md-3">
                     <button type="submit" class="btn btn-primary p-md-2"
                         style="color: #fff; background-color: #347054; border-color: #347054; font-weight: 300; font-size: 16px;">Search</button>
                 </div>
@@ -104,7 +104,7 @@ require_once APP_ROOT . '/view/partials/header.php'
 
     </div>
 
-    <div class="container text-center">
+    <div id="items-section" class="container text-center">
         <div class="row">
             <div class="col-md-12">
                 <div class="list-group rounded-0">
@@ -186,46 +186,33 @@ require_once APP_ROOT . '/view/partials/header.php'
                     ?>
                 </div>
                 <!-- Pagination links -->
-                <nav aria-label="Page navigation">
+                <nav aria-label="Page navigation" id="pagination-container">
                     <ul class="pagination justify-content-center mt-5">
                         <?php
                         $stmt = $pdo->select($search);
                         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                        if (is_array($row) && isset($row['total'])) {
-                            $total_pages = ceil($row['total'] / $limit);
-                        } else {
-                            $total_pages = 1; // default value if no rows are found
-                        }
-                        // Calculate total pages
+                        $total_pages = isset($row['total']) ? ceil($row['total'] / $limit) : 1;
+
                         if ($total_pages >= 1) {
                             // Previous page link
                             if ($page > 1) {
-                                echo '<li class="page-item"><a class="page-link" href="?page=' . ($page - 1) . '">Previous</a></li>';
+                                echo '<li class="page-item"><a class="page-link pagination-link" href="?page=' . ($page - 1) . '">Previous</a></li>';
                             }
 
                             // Page links
                             for ($i = 1; $i <= $total_pages; $i++) {
-                                echo '<li class="page-item ' . ($page == $i ? 'active' : '') . '"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>';
+                                echo '<li class="page-item ' . ($page == $i ? 'active' : '') . '"><a class="page-link pagination-link" href="?page=' . $i . '">' . $i . '</a></li>';
                             }
 
                             // Next page link
                             if ($page < $total_pages) {
-                                echo '<li class="page-item"><a class="page-link" href="?page=' . ($page + 1) . '">Next</a></li>';
-                            }
-                        } else {
-                            // Previous page link
-                            if ($page > 1) {
-                                echo '<li class="page-item active"><a class="page-link" href="?page=' . ($page - 1) . '">Previous</a></li>';
-                            }
-
-                            // Next page link
-                            if ($page < $total_pages) {
-                                echo '<li class="page-item text-muted disabled"><a class="page-link" href="?page=' . ($page + 1) . '">Next</a></li>';
+                                echo '<li class="page-item"><a class="page-link pagination-link" href="?page=' . ($page + 1) . '">Next</a></li>';
                             }
                         }
                         ?>
                     </ul>
                 </nav>
+
             </div>
         </div>
     </div>
@@ -481,5 +468,73 @@ require_once APP_ROOT . '/view/partials/header.php'
 
         </div>
     </div>
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const paginationLinks = document.querySelectorAll('.pagination-link');
+
+    paginationLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const url = this.getAttribute('href');
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data, 'text/html');
+                    const newContent = doc.querySelector('.list-group').innerHTML;
+                    const newPagination = doc.querySelector('#pagination-container').innerHTML;
+
+                    // Update the content and pagination
+                    document.querySelector('.list-group').innerHTML = newContent;
+                    document.querySelector('#pagination-container').innerHTML = newPagination;
+
+                    // Scroll to the pagination section
+                    document.querySelector('#pagination-container').scrollIntoView({ behavior: 'smooth' });
+
+                    // Re-bind the click events to the new pagination links
+                    bindPaginationLinks();
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    });
+
+    function bindPaginationLinks() {
+        const newPaginationLinks = document.querySelectorAll('.pagination-link');
+        newPaginationLinks.forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const url = this.getAttribute('href');
+                fetch(url)
+                    .then(response => response.text())
+                    .then(data => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(data, 'text/html');
+                        const newContent = doc.querySelector('.list-group').innerHTML;
+                        const newPagination = doc.querySelector('#pagination-container').innerHTML;
+
+                        document.querySelector('.list-group').innerHTML = newContent;
+                        document.querySelector('#pagination-container').innerHTML = newPagination;
+
+                        document.querySelector('#pagination-container').scrollIntoView({ behavior: 'smooth' });
+
+                        bindPaginationLinks();
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+        });
+    }
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if the URL has query parameters
+    if (window.location.search) {
+        // Scroll to the search form
+        document.getElementById('search-form').scrollIntoView({ behavior: 'smooth' });
+    }
+});
+</script>
+
+
 
     <?php require_once APP_ROOT . '/view/partials/footer.php' ?>

@@ -9,7 +9,7 @@ if (isset($_POST['logout'])) {
 if (!empty(Session::get('loggedin'))) {
     $currentUser = toJson($pdo->select("SELECT * FROM users WHERE id=?", [Session::get('loggedin')])->fetch(PDO::FETCH_ASSOC));
 
-    $questions = toJson($pdo->select("SELECT `d`.*, `u`.fullname FROM `document` `d`, `users` `u` WHERE `d`.`user_id`= `u`.`id` AND `d`.`user_id` IN (SELECT `id` FROM `users` WHERE `is_agent` = ?) GROUP BY `d`.`user_id`;)", [1])->fetchAll(PDO::FETCH_ASSOC));
+    $questions = toJson($pdo->select("SELECT `d`.*, `u`.fullname FROM `document` `d`, `users` `u` WHERE `d`.`user_id`= `u`.`id` AND `d`.`user_id` IN (SELECT `id` FROM `users` WHERE `is_agent` = ?);)", [1])->fetchAll(PDO::FETCH_ASSOC));
 
 
     if (isset($_GET['id'])) {

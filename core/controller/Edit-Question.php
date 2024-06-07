@@ -1,6 +1,6 @@
 <?php
 
-$title = 'Create Post' . '|' . SITE_TITLE;
+$title = 'Edit Question' . '|' . SITE_TITLE;
 
 if (isset($_POST['logout'])) {
     Session::unset('loggedin');
@@ -11,9 +11,8 @@ if (!empty(Session::get('loggedin'))) {
 
     $currentUser = toJson($pdo->select("SELECT * FROM users WHERE id=?", [Session::get('loggedin')])->fetch(PDO::FETCH_ASSOC));
     
-    $questions = toJson($pdo->select("SELECT * FROM past_question", [])->fetchAll(PDO::FETCH_ASSOC));
-
-
+    $id = $_GET['id'] ?? '';
+    $questions = toJson($pdo->select("SELECT * FROM past_question WHERE id=?", [$id])->fetchAll(PDO::FETCH_ASSOC));
 
     if (isset($_GET['publish'])) {
 

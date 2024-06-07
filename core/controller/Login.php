@@ -42,6 +42,7 @@ if (isset($_POST['login'])) {
 
     if (!empty($res)) {
         Session::put('loggedin', $res->id);
+        Session::put('user_email', $res->email);
 
         if ($res->access === 'admin') {
             if ($_SESSION['guest-purchase']) {

@@ -9,12 +9,15 @@ if (isset($_COOKIE['cart'])) {
 }
 $currentUser = toJson($pdo->select("SELECT * FROM users WHERE id=?", [Session::get('loggedin')])->fetch(PDO::FETCH_ASSOC));
 
-$dashboard = 'dashboard';
 if (!empty($currentUser)) {
     if ($currentUser->access == 'admin') {
         $dashboard = 'admin-dashboard';
     } elseif ($currentUser->access == 'secured' && $currentUser->is_agent) {
         $dashboard = 'agent-dashboard';
+    }elseif ($currentUser->access == 'secured') {
+        $dashboard = 'dashboard';
+    }else {
+        $dashboard = '';
     }
 }
 

@@ -1,4 +1,4 @@
-x<?php require_once APP_ROOT . '/view/partials/auth-header.php'?>
+<?php require_once APP_ROOT . '/view/partials/auth-header.php'?>
     
 </head>
 

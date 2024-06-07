@@ -2,7 +2,7 @@
 
 </head>
 <body>
-<?php require_once APP_ROOT . '/view/partials/admin_sidebar.php'?>
+<?php $currentUser->is_agent ? require_once APP_ROOT . '/view/partials/agent_sidebar.php': require_once APP_ROOT . '/view/partials/admin_sidebar.php' ?>
 
              
 

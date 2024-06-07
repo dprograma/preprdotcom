@@ -3,7 +3,7 @@
 </head>
 
 <body>
-  <?php $currentUser->is_agent ? require_once APP_ROOT . '/view/partials/agent_sidebar.php': require_once APP_ROOT . '/view/partials/admin_sidebar.php' ?>
+  <?php $currentUser->is_agent ? require_once APP_ROOT . '/view/partials/agent_sidebar.php' : require_once APP_ROOT . '/view/partials/admin_sidebar.php' ?>
 
   <div class="container">
     <?php if (isset($_GET['error'])): ?>
@@ -35,7 +35,7 @@
                   <td class="text-capitalize"><?= $question->subject ?></td>
                   <td class="text-capitalize"><?= $question->year ?></td>
                   <td class="text-capitalize"><?= $question->created_at ?></td>
-
+                  <?php if (!$currentUser->is_agent): ?>
                   <td class="view-modal-trigger">
                     <button type="button" class="button btn btn-info btn-view"
                       data-modal-id="viewModal<?= $ques ?>">View</button>
@@ -46,12 +46,29 @@
                     <a href="edit-question?id=<?= $question->id ?>" class="button btn btn-warning btn-view edit-link"
                       data-question-id="<?= $question->id ?>">EDIT</a>
                   </td>
+                  <?php else: ?>
+                    <!-- Update your "EDIT" links with data attributes -->
+                  <td class="view-modal-trigger">
+                    <a href="edit-uploaded-past-question?id=<?=$question->id?>" class="button btn btn-warning btn-view edit-link"
+                      data-question-id="<?= $question->id ?>">EDIT</a>
+                  </td>
+                  <?php endif; ?>
                   <td class="text-center">
-                    <button type="button"
-                      class="btn btn-sm btn-rounded btn-pill text-uppercase ml-4 text-white <?= $question->publish == 1 ? 'bg-success' : 'bg-secondary text-white' ?>"
-                      title="Publish" data-status="<?= $question->publish ?>" onclick="confirmPublish(<?= $question->id ?>, '<?=$url ?>', this)">
-                      <?= $question->publish == 1 ? 'Published' : 'Unpublished' ?>
-                    </button>
+                    <?php if ($currentUser->is_agent): ?>
+                      <button type="button"
+                        class="btn btn-sm btn-rounded btn-pill text-uppercase ml-4 text-white <?= $question->published == 1 ? 'bg-success' : 'bg-secondary text-white' ?>" data-status="<?= $question->published ?>" style="cursor: text;">
+                        <?= $question->published == 1 ? 'Published' : 'Unpublished' ?>
+                      </button>
+                    <?php else: ?>
+
+                      <button disabled type="button"
+                        class="btn btn-sm btn-rounded btn-pill text-uppercase ml-4 text-white <?= $question->published == 1 ? 'bg-success' : 'bg-secondary text-white' ?>"
+                        title="Publish" data-status="<?= $question->published ?>"
+                        onclick="confirmPublish(<?= $question->id ?>, '<?= $url ?>', this)">
+                        <?= $question->published == 1 ? 'Published' : 'Unpublished' ?>
+                      </button>
+                    <?php endif; ?>
+
                   </td>
                   <td class="text-center">
                     <button type="button"
@@ -86,7 +103,8 @@
                 <td class="text-center">
                   <button type="button"
                     class="btn btn-sm btn-rounded btn-pill text-uppercase ml-4 text-white <?= $question->publish == 1 ? 'bg-success' : 'bg-secondary text-white' ?>"
-                    title="Publish" data-status="<?= $question->publish ?>" onclick="confirmPublish(<?= $question->id ?>, '<?= $url ?>', this)">
+                    title="Publish" data-status="<?= $question->publish ?>"
+                    onclick="confirmPublish(<?= $question->id ?>, '<?= $url ?>', this)">
                     <?= $question->publish == 1 ? 'Published' : 'Unpublished' ?>
                   </button>
                 </td>
@@ -146,7 +164,7 @@
                 <input type="text" class=" form-control text-capitalize" id="optionA" name="optionA"
                   value="<?= htmlspecialchars($question->option_a) ?>" readonly>
               </div> -->
-<!-- 
+              <!-- 
               <div class="form-group mb-3">
                 <label for="optionB">Option B</label>
                 <input type="text" class=" form-control text-capitalize" id="optionB" name="optionB"

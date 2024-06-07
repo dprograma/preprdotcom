@@ -52,7 +52,7 @@ if (isset($_POST['register'])) {
     $hashedPass = password_hash($userData['password'], PASSWORD_DEFAULT);
 
     if (Session::exists('new-agent')) {
-        $pdo->insert('INSERT INTO users(username,email, fullname, `password`, verification, profileimg, is_agent) VALUES(?,?,?,?,?,?,?)', [$userData['UserName'], $userData['Email'], $userData['FullName'], $hashedPass, $verification, $userData['ProfileImg'], true]);
+        $pdo->insert('INSERT INTO users(username,email, fullname, `password`, verification, profileimg, is_agent, access) VALUES(?,?,?,?,?,?,?,?)', [$userData['UserName'], $userData['Email'], $userData['FullName'], $hashedPass, $verification, $userData['ProfileImg'], true, 'secured']);
 
         // $date = date('d-m-Y H:i:s');
 
@@ -70,7 +70,7 @@ if (isset($_POST['register'])) {
 // exit;
     if ($pdo->status) {
         // $pdo->update("UPDATE users SET access = 'secured' WHERE email = ?", [ $userData['Email']]);
-        redirect('first-sub', 'Please Make Payment');
+        Session::exists('new-agent') ? redirect('auth-login', "registration Successful", 'success') : redirect('first-sub', 'Please Make Payment');
 
         //send a welcome email to the user
         $welcomeMsg = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Document</title>
